@@ -33,8 +33,8 @@ def load_user(user_id):
 
 class Base(DeclarativeBase):
     pass
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db") #реально тут ничего не защищено,
+#потому что у меня база пока незапаролена
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
