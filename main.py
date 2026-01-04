@@ -11,6 +11,7 @@ from sqlalchemy import Integer, String, Text, ForeignKey
 from functools import wraps
 import os
 import dotenv
+import gunicorn
 
 from typing import List
 from werkzeug.security import generate_password_hash, check_password_hash
