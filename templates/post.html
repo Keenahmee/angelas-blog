@@ -1,0 +1,81 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{post.img_url}}')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-heading">
+          <h1>{{ post.title }}</h1>
+          <h2 class="subheading">{{ post.subtitle }}</h2>
+          <span class="meta"
+            >Posted by
+            <a href="#">{{post.author.name}}</a>
+            on {{ post.date }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ {{ ckeditor.load() }}
+
+</header>
+
+<!-- Post Content -->
+<article>
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        {{ post.body|safe }}
+
+        <div class="d-flex justify-content-end mb-4">
+          <a
+            class="btn btn-primary float-right"
+            href="{{url_for('edit_post', post_id=post.id)}}"
+            >Edit Post</a
+          >
+        </div>
+
+        <!-- Comments Area -->
+
+        <div class="comment">
+{% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+         <p class="text-danger">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+             <form method="post">
+                 {{ form.csrf_token }}
+    {{ form.body() }}
+    {{ form.submit() }}
+</form>
+
+ {{ ckeditor.config(name='body') }}
+ </body>
+
+          <!-- TODO: Show all the comments on a post -->
+            <ul class="commentList">
+            {%for comment in comments%}
+
+            <li>
+              <div class="commenterImage">
+                <img src="{{ comment.comment_author.email | gravatar }}" alt="Avatar" />
+              </div>
+              <div class="commentText">
+                {{comment.text|safe}}
+                <span class="date sub-text">{{comment.comment_author.name}}</span>
+              </div>
+            </li>
+            {%endfor%}
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+{% include "footer.html" %}
